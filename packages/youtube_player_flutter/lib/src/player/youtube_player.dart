@@ -354,9 +354,11 @@ class _YoutubePlayerState extends State<YoutubePlayer> {
                             widget.controller.flags.showLiveFullscreenButton,
                       )
                     : Padding(
-                        padding: widget.bottomActions == null
-                            ? const EdgeInsets.all(0.0)
-                            : widget.actionsPadding,
+                        padding: controller.value.isFullScreen
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16.0)
+                            : const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
                         child: Row(
                           children: widget.bottomActions ??
                               [
@@ -368,7 +370,7 @@ class _YoutubePlayerState extends State<YoutubePlayer> {
                                   colors: widget.progressColors,
                                 ),
                                 const RemainingDuration(),
-                                const PlaybackSpeedButton(),
+                                // const PlaybackSpeedButton(),
                                 const FullScreenButton(),
                               ],
                         ),
@@ -395,7 +397,11 @@ class _YoutubePlayerState extends State<YoutubePlayer> {
             ),
           ],
           if (!controller.flags.hideControls)
-            const Center(child: PlayPauseButton()),
+            Center(
+              child: PlayPauseButton(
+                bufferIndicator: widget.bufferIndicator,
+              ),
+            ),
           if (controller.value.hasError) errorWidget,
         ],
       ),

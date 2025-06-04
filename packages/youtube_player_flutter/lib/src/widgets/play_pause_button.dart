@@ -107,13 +107,18 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
       );
     }
     if (_controller.value.hasError) return const SizedBox();
-    return widget.bufferIndicator ??
-        const SizedBox.square(
-          dimension: 70,
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(Colors.white),
-          ),
-        );
+
+    if (!_controller.value.isReady) {
+      return widget.bufferIndicator ??
+          const SizedBox.square(
+            dimension: 70,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+            ),
+          );
+    }
+
+    return const SizedBox.shrink();
   }
 
   void _togglePlayPause(PlayerState state) {
